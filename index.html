@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PJOK Renang SD - Media Pembelajaran Interaktif</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pool: {
+                            50: '#ecfeff',
+                            100: '#cffaff',
+                            200: '#a5f3fc',
+                            300: '#67e8f9',
+                            400: '#22d3ee',
+                            500: '#06b6d4', // Primary Cyan
+                            600: '#0891b2',
+                            700: '#0e7490',
+                            800: '#155e75',
+                            900: '#164e63',
+                        },
+                        sky: {
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            950: '#082f49',
+                        },
+                        accent: {
+                            yellow: '#facc15',
+                            orange: '#fb923c',
+                            green: '#4ade80'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Fredoka', 'cursive', 'sans-serif'],
+                        body: ['Nunito', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #ECFEFF;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Fredoka', cursive, sans-serif;
+            letter-spacing: 0.01em;
+        }
+        .swimmer-float {
+            animation: floatWave 3s ease-in-out infinite;
+        }
+        @keyframes floatWave {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+        .bubble-anim {
+            animation: bubbleUp 4s ease-in infinite;
+        }
+        @keyframes bubbleUp {
+            0% { transform: translateY(100%) scale(0.6); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-120%) scale(1.2); opacity: 0; }
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #CFFAFF;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #06B6D4;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="text-slate-800 flex flex-col min-h-screen selection:bg-pool-500 selection:text-white">
+
+    <!-- NAVIGATION HEADER -->
+    <header class="sticky top-0 z-50 bg-slate-900 text-white shadow-xl border-b-4 border-pool-400">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#hero" class="flex items-center gap-3 group">
+                <div class="bg-pool-400 text-slate-950 p-2 rounded-2xl font-bold text-xl w-11 h-11 flex items-center justify-center shadow-lg transform group-hover:rotate-12 transition">
+                    🏊‍♂️
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-extrabold tracking-wide leading-tight font-heading text-white">
+                        PJOK <span class="text-pool-400">RENANG SD</span>
+                    </h1>
+                    <p class="text-xs text-pool-200 font-bold hidden sm:block">
+                        Farhan Komaruzaman | NPM: 41182191240026 | Paralel 1
+                    </p>
+                </div>
+            </a>
+            
+            <nav class="hidden md:flex items-center gap-2 font-heading font-semibold text-sm">
+                <a href="#pengenalan" class="px-3.5 py-2 rounded-xl hover:bg-slate-800 hover:text-pool-300 transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-life-ring text-accent-yellow"></i> Persiapan
+                </a>
+                <a href="#simulator" class="px-3.5 py-2 rounded-xl bg-pool-500 text-slate-950 font-bold hover:bg-pool-400 transition shadow-md flex items-center gap-1.5">
+                    <i class="fa-solid fa-water"></i> Simulator Renang 2D
+                </a>
+                <a href="#teknik" class="px-3.5 py-2 rounded-xl hover:bg-slate-800 hover:text-pool-300 transition">Teknik Dasar</a>
+                <a href="#keselamatan" class="px-3.5 py-2 rounded-xl hover:bg-slate-800 hover:text-pool-300 transition">Keselamatan</a>
+                <a href="#kuis" class="px-3.5 py-2 bg-accent-yellow text-slate-950 font-bold rounded-xl hover:bg-yellow-400 transition shadow-md">Kuis Interaktif ⭐️</a>
+                <a href="#pembuat" class="px-3.5 py-2 rounded-xl hover:bg-slate-800 text-pool-300">Profil Pembuat</a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button id="menu-btn" class="md:hidden text-white text-2xl focus:outline-none p-1" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-950 px-4 pt-2 pb-4 space-y-2 font-heading border-t border-slate-800">
+            <a href="#pengenalan" class="block py-2 px-3 hover:bg-slate-800 rounded-xl text-white">Persiapan Kolam</a>
+            <a href="#simulator" class="block py-2 px-3 bg-pool-500 text-slate-950 font-bold rounded-xl">Simulator Renang 2D 🏊‍♂️</a>
+            <a href="#teknik" class="block py-2 px-3 hover:bg-slate-800 rounded-xl text-white">Teknik Dasar Renang</a>
+            <a href="#keselamatan" class="block py-2 px-3 hover:bg-slate-800 rounded-xl text-white">Aturan Keselamatan</a>
+            <a href="#kuis" class="block py-2 px-3 bg-accent-yellow text-slate-950 font-bold rounded-xl">Kuis Interaktif ⭐️</a>
+            <a href="#pembuat" class="block py-2 px-3 hover:bg-slate-800 rounded-xl text-pool-400">Profil Pembuat (Paralel 1)</a>
+        </div>
+    </header>
+
+    <!-- HERO BANNER -->
+    <section id="hero" class="bg-gradient-to-br from-slate-950 via-sky-900 to-pool-800 text-white py-12 md:py-16 px-4 relative overflow-hidden">
+        <!-- Floating Bubble Graphics -->
+        <div class="absolute inset-0 pointer-events-none opacity-20">
+            <div class="w-8 h-8 rounded-full border-2 border-white absolute left-[10%] bottom-0 bubble-anim" style="animation-duration: 5s;"></div>
+            <div class="w-12 h-12 rounded-full border-2 border-white absolute left-[30%] bottom-0 bubble-anim" style="animation-duration: 7s; animation-delay: 1s;"></div>
+            <div class="w-6 h-6 rounded-full border-2 border-white absolute left-[65%] bottom-0 bubble-anim" style="animation-duration: 4s; animation-delay: 2s;"></div>
+            <div class="w-10 h-10 rounded-full border-2 border-white absolute left-[85%] bottom-0 bubble-anim" style="animation-duration: 6s; animation-delay: 0.5s;"></div>
+        </div>
+
+        <div class="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+            <div class="text-center md:text-left md:w-3/5 space-y-4">
+                <span class="bg-pool-400 text-slate-950 px-4 py-1.5 rounded-full text-xs md:text-sm font-extrabold uppercase tracking-wider inline-flex items-center gap-2 shadow-md font-heading">
+                    <i class="fa-solid fa-water"></i> Modul Pembelajaran PJOK SD
+                </span>
+                <h2 class="text-3xl md:text-5xl font-black leading-tight font-heading tracking-tight">
+                    BELAJAR TEKNIK DASAR <br/><span class="text-pool-300">OLAHRAGA RENANG</span>
+                </h2>
+                <p class="text-slate-200 text-base md:text-lg font-medium leading-relaxed">
+                    Halo teman-teman SD! Mari belajar meluncur, gerakan kaki, gayuhan tangan, dan pernapasan gaya bebas serta gaya dada dengan simulator renang 2D interaktif yang lebih realistis dan menyenangkan!
+                </p>
+                
+                <div class="flex flex-wrap justify-center md:justify-start gap-3 pt-2">
+                    <a href="#simulator" onclick="playSplashSound()" class="bg-pool-400 text-slate-950 font-black px-6 py-3.5 rounded-2xl hover:bg-pool-300 transform hover:-translate-y-1 transition shadow-lg flex items-center gap-2 font-heading text-base">
+                        <i class="fa-solid fa-play text-lg"></i> Coba Simulator Renang 2D
+                    </a>
+                    <a href="#kuis" onclick="playSplashSound()" class="bg-accent-yellow hover:bg-yellow-400 text-slate-950 px-6 py-3.5 rounded-2xl font-black transform hover:-translate-y-1 transition shadow-md flex items-center gap-2 font-heading text-base">
+                        <i class="fa-solid fa-star"></i> Mainkan Kuis (5 Soal)
+                    </a>
+                </div>
+
+                <!-- Creator Credit Card Banner -->
+                <div class="pt-4 border-t border-slate-700/80 text-xs md:text-sm text-slate-300 flex items-center gap-3">
+                    <div class="w-11 h-11 rounded-full bg-pool-400 text-slate-950 font-black flex items-center justify-center text-sm font-heading flex-shrink-0 shadow border-2 border-white">
+                        FK
+                    </div>
+                    <div>
+                        <p class="font-bold">Dibuat oleh: <span class="text-pool-300">Farhan Komaruzaman</span></p>
+                        <p class="text-slate-300 font-semibold">NPM: <span class="text-accent-yellow font-bold">41182191240026</span> | <span class="bg-pool-500 text-slate-950 px-2 py-0.5 rounded font-bold text-xs font-heading">Paralel 1</span></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Graphic Hero Swimmer Interactive SVG -->
+            <div class="md:w-2/5 flex justify-center">
+                <div class="relative w-64 h-64 md:w-80 md:h-80 bg-sky-950/80 rounded-3xl flex flex-col items-center justify-center p-4 backdrop-blur-md border-4 border-pool-400 shadow-2xl group cursor-pointer swimmer-float" onclick="triggerHeroSplash()">
+                    <svg id="hero-swimmer-svg" viewBox="0 0 300 200" class="w-full h-full">
+                        <!-- Pool Water Line Background -->
+                        <path d="M 0 110 Q 50 100, 100 110 T 200 110 T 300 110 L 300 200 L 0 200 Z" fill="#06B6D4" opacity="0.8"/>
+                        <path d="M 0 120 Q 60 128, 120 120 T 240 120 T 300 125 L 300 200 L 0 200 Z" fill="#0891B2"/>
+                        
+                        <!-- Animated Bubbles in SVG -->
+                        <circle cx="90" cy="140" r="4" fill="#FFFFFF" opacity="0.6"/>
+                        <circle cx="150" cy="150" r="6" fill="#FFFFFF" opacity="0.5"/>
+                        <circle cx="210" cy="135" r="5" fill="#FFFFFF" opacity="0.7"/>
+
+                        <!-- Kid Swimmer Character -->
+                        <!-- Kickboard / Floater -->
+                        <rect x="200" y="80" width="45" height="14" rx="7" fill="#FACC15" stroke="#EAB308" stroke-width="2"/>
+
+                        <!-- Arms extended holding board -->
+                        <path d="M 145 92 L 205 87" stroke="#FDBA74" stroke-width="8" stroke-linecap="round"/>
+
+                        <!-- Head with Swim Cap & Goggles -->
+                        <circle cx="140" cy="90" r="16" fill="#FDBA74"/> <!-- Head skin -->
+                        <path d="M 126 88 A 16 16 0 0 1 154 84 Z" fill="#FB923C"/> <!-- Swim Cap Orange -->
+                        <!-- Goggles -->
+                        <rect x="140" y="86" width="12" height="7" rx="3" fill="#38BDF8" stroke="#1E293B" stroke-width="1.5"/>
+                        <line x1="135" y1="89" x2="140" y2="89" stroke="#1E293B" stroke-width="1.5"/>
+
+                        <!-- Body in Water -->
+                        <path d="M 75 96 L 130 92" stroke="#FDBA74" stroke-width="16" stroke-linecap="round"/>
+                        <!-- Swim Shorts Blue -->
+                        <rect x="70" y="88" width="22" height="16" rx="4" fill="#0EA5E9"/>
+
+                        <!-- Legs Flutter Kicking with Water Splashes -->
+                        <path d="M 72 92 L 40 82" stroke="#FDBA74" stroke-width="7" stroke-linecap="round"/>
+                        <path d="M 72 98 L 45 110" stroke="#FDBA74" stroke-width="7" stroke-linecap="round"/>
+
+                        <!-- Water Splash Drops at feet -->
+                        <circle cx="35" cy="80" r="3" fill="#FFFFFF"/>
+                        <circle cx="42" cy="115" r="4" fill="#FFFFFF"/>
+                        <circle cx="25" cy="95" r="2.5" fill="#FFFFFF"/>
+                    </svg>
+                    <div class="mt-2 bg-accent-yellow text-slate-950 text-xs font-extrabold px-4 py-1.5 rounded-full shadow border-2 border-yellow-500 font-heading">
+                        Klik Perenang Ini! 💦
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-5xl mx-auto px-4 py-10 space-y-14 flex-grow">
+
+        <!-- 1. PERSIAPAN & KESELAMATAN SEBELUM RENANG -->
+        <section id="pengenalan" class="bg-white rounded-3xl p-6 md:p-8 shadow-md border-3 border-pool-200">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+                <div class="flex items-center gap-3">
+                    <div class="bg-pool-100 text-pool-700 p-3 rounded-2xl text-2xl font-black font-heading">
+                        <i class="fa-solid fa-person-swimming"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 font-heading">Persiapan Sebelum Berenang</h2>
+                        <p class="text-sm text-slate-500 font-medium">Hal penting yang wajib dilakukan anak SD sebelum masuk ke kolam air</p>
+                    </div>
+                </div>
+                <button onclick="speakText('Persiapan sebelum berenang sangat penting! Satu, gunakan pakaian renang dan kacamata renang. Dua, lakukan pemanasan otot agar tidak kram. Tiga, bilas tubuh dengan shower air bersih. Empat, masuk ke kolam dangkal secara perlahan.')" class="self-start sm:self-center bg-pool-50 hover:bg-pool-100 text-pool-700 font-bold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1.5 transition border border-pool-200">
+                    <i class="fa-solid fa-volume-high text-sm"></i> Suara Narasi
+                </button>
+            </div>
+
+            <!-- Preparation 4 Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                
+                <!-- Card 1 -->
+                <div class="bg-pool-50/70 rounded-2xl p-5 border-2 border-pool-200 flex flex-col justify-between hover:shadow-md transition group">
+                    <div>
+                        <div class="w-12 h-12 bg-pool-500 text-slate-950 rounded-2xl flex items-center justify-center text-2xl font-bold mb-3 shadow group-hover:scale-110 transition">
+                            🩱
+                        </div>
+                        <h3 class="font-heading text-lg font-bold text-slate-900 mb-1">1. Baju & Kacamata</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                            Pakai baju renang yang nyaman, topi renang, dan kacamata renang agar mata tidak pedih kena air kolam.
+                        </p>
+                    </div>
+                    <button onclick="speakText('Gunakan baju renang yang pas dan kacamata renang agar matamu terlindung dari air kolam.')" class="text-xs text-pool-700 font-bold hover:underline flex items-center gap-1">
+                        <i class="fa-solid fa-volume-high"></i> Dengarkan
+                    </button>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-pool-50/70 rounded-2xl p-5 border-2 border-pool-200 flex flex-col justify-between hover:shadow-md transition group">
+                    <div>
+                        <div class="w-12 h-12 bg-pool-500 text-slate-950 rounded-2xl flex items-center justify-center text-2xl font-bold mb-3 shadow group-hover:scale-110 transition">
+                            🤸‍♂️
+                        </div>
+                        <h3 class="font-heading text-lg font-bold text-slate-900 mb-1">2. Pemanasan Otot</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                            Lakukan gerakan peregangan tangan dan kaki selama 5-10 menit sebelum berenang agar otot tidak kram.
+                        </p>
+                    </div>
+                    <button onclick="speakText('Lakukan pemanasan peregangan tangan dan kaki agar otot tubuh tidak kram saat berenang.')" class="text-xs text-pool-700 font-bold hover:underline flex items-center gap-1">
+                        <i class="fa-solid fa-volume-high"></i> Dengarkan
+                    </button>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-pool-50/70 rounded-2xl p-5 border-2 border-pool-200 flex flex-col justify-between hover:shadow-md transition group">
+                    <div>
+                        <div class="w-12 h-12 bg-pool-500 text-slate-950 rounded-2xl flex items-center justify-center text-2xl font-bold mb-3 shadow group-hover:scale-110 transition">
+                            🚿
+                        </div>
+                        <h3 class="font-heading text-lg font-bold text-slate-900 mb-1">3. Bilas Badan</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                            Bilas tubuh dengan air bersih shower agar tubuh beradaptasi dengan suhu air kolam renang.
+                        </p>
+                    </div>
+                    <button onclick="speakText('Bilas tubuh terlebih dahulu dengan air bersih agar suhu tubuh beradaptasi dengan air kolam.')" class="text-xs text-pool-700 font-bold hover:underline flex items-center gap-1">
+                        <i class="fa-solid fa-volume-high"></i> Dengarkan
+                    </button>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-pool-50/70 rounded-2xl p-5 border-2 border-pool-200 flex flex-col justify-between hover:shadow-md transition group">
+                    <div>
+                        <div class="w-12 h-12 bg-pool-500 text-slate-950 rounded-2xl flex items-center justify-center text-2xl font-bold mb-3 shadow group-hover:scale-110 transition">
+                            🛟
+                        </div>
+                        <h3 class="font-heading text-lg font-bold text-slate-900 mb-1">4. Kolam Dangkal</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                            Untuk anak SD yang baru belajar, selalu gunakan kolam renang dangkal yang sesuai dengan tinggi badan.
+                        </p>
+                    </div>
+                    <button onclick="speakText('Selalu belajar di kolam dangkal yang aman bagi tinggi badan anak SD.')" class="text-xs text-pool-700 font-bold hover:underline flex items-center gap-1">
+                        <i class="fa-solid fa-volume-high"></i> Dengarkan
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 2. UPGRADED SIMULATOR CANVAS 2D ANIMASI RENANG INTERAKTIF -->
+        <section id="simulator" class="bg-slate-900 text-white rounded-3xl p-6 md:p-8 shadow-2xl border-4 border-pool-400 relative overflow-hidden">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
+                <div>
+                    <span class="bg-pool-400 text-slate-950 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider inline-flex items-center gap-1 font-heading shadow">
+                        <i class="fa-solid fa-video"></i> Simulator Renang 2D Biomekanika HD
+                    </span>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-white mt-1 font-heading">SIMULATOR LINTASAN RENANG 🏊‍♂️</h2>
+                    <p class="text-slate-300 text-xs md:text-sm">Pilih teknik dan amati animasi gerak tubuh perenang di dalam kolam renang!</p>
+                </div>
+
+                <!-- Mode Select Buttons -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="setSimMode('gliding')" id="btn-mode-gliding" class="px-3 py-2 rounded-xl text-xs font-bold font-heading bg-pool-500 text-slate-950 shadow transition">
+                        1. Meluncur
+                    </button>
+                    <button onclick="setSimMode('kicking')" id="btn-mode-kicking" class="px-3 py-2 rounded-xl text-xs font-bold font-heading bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                        2. Gerakan Kaki
+                    </button>
+                    <button onclick="setSimMode('full')" id="btn-mode-full" class="px-3 py-2 rounded-xl text-xs font-bold font-heading bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                        3. Gaya Bebas
+                    </button>
+                    <button onclick="setSimMode('breaststroke')" id="btn-mode-breaststroke" class="px-3 py-2 rounded-xl text-xs font-bold font-heading bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                        4. Gaya Dada/Katak
+                    </button>
+                </div>
+            </div>
+
+            <!-- Canvas Viewport -->
+            <div class="relative bg-gradient-to-b from-sky-600 via-pool-600 to-sky-950 rounded-2xl overflow-hidden border-4 border-slate-700 shadow-inner h-80 md:h-[400px] flex items-center justify-center">
+                <canvas id="swimmingCanvas" class="w-full h-full cursor-crosshair"></canvas>
+
+                <!-- Floating Live Breath Status Badge -->
+                <div id="breath-status-badge" class="absolute top-4 right-4 bg-slate-950/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-pool-400 text-xs font-bold text-pool-300 flex items-center gap-2 shadow">
+                    <span id="breath-dot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span id="breath-text">Status Pernapasan: Dalam Air (Exhale 🫧)</span>
+                </div>
+
+                <!-- Overlay Controls Bar -->
+                <div class="absolute bottom-3 left-3 right-3 bg-slate-950/90 backdrop-blur-md p-3 rounded-2xl border border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs">
+                    
+                    <div class="flex items-center gap-2">
+                        <button onclick="toggleSimPlay()" id="sim-play-btn" class="bg-accent-yellow hover:bg-yellow-400 text-slate-950 font-black px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 shadow transition font-heading">
+                            <i class="fa-solid fa-pause"></i> Pause
+                        </button>
+                        <button onclick="triggerWaterSplashEffect()" class="bg-pool-500 hover:bg-pool-400 text-slate-950 font-extrabold px-3.5 py-2 rounded-xl text-xs flex items-center gap-1 shadow transition font-heading">
+                            💧 Beri Cipratan Air
+                        </button>
+                        <button onclick="toggleBiomechanics()" id="bio-toggle-btn" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-600 px-3 py-2 rounded-xl font-bold transition">
+                            <i class="fa-solid fa-vector-square text-pool-300"></i> Panah Biomekanika: <span id="bio-status-text" class="text-pool-300">ON</span>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <span id="sim-mode-title" class="font-bold text-pool-300 font-heading hidden lg:inline">Mode: Meluncur (Gliding)</span>
+                        <div class="flex items-center gap-2 bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-800">
+                            <label class="text-slate-300 font-bold font-heading">Kecepatan:</label>
+                            <input type="range" id="sim-speed-slider" min="0.4" max="2.2" step="0.1" value="1" class="w-20 accent-cyan-400 cursor-pointer">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            <p id="sim-instruction-text" class="text-xs text-pool-200 text-center mt-3 font-semibold bg-slate-950/40 py-2 px-4 rounded-xl border border-slate-800">
+                💡 *Keterangan Mode Meluncur:* Badan sejajar lurus permukaan air, kedua tangan lurus memegang papan seluncur / menjangkau ke depan.
+            </p>
+        </section>
+
+        <!-- 3. MATERI TEKNIK DASAR RENANG GAYA BEBAS SD (4 MODUL) -->
+        <section id="teknik" class="space-y-6">
+            <div class="text-center max-w-2xl mx-auto">
+                <span class="bg-pool-100 text-pool-800 text-xs font-bold px-3.5 py-1 rounded-full uppercase tracking-wider font-heading">Kurikulum PJOK SD</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-2 font-heading">4 TEKNIK DASAR RENANG GAYA BEBAS</h2>
+                <p class="text-slate-600 text-sm mt-1">Klik setiap kartu di bawah untuk mempelajari cara melakukan gerakan secara lengkap!</p>
+            </div>
+
+            <!-- Modul Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+                <!-- Modul 1: Meluncur -->
+                <div class="bg-white rounded-3xl p-6 shadow-md border-3 border-pool-200 hover:border-pool-400 transition flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-14 h-14 bg-pool-500 text-slate-950 rounded-2xl flex items-center justify-center text-3xl font-black shadow group-hover:scale-105 transition">
+                                🚀
+                            </div>
+                            <button onclick="speakText('Teknik Meluncur. Berdiri di tepi kolam dangkal, dorong dinding kolam dengan satu kaki, lalu luruskan seluruh tubuh sejajar permukaan air seperti peluru.')" class="bg-pool-50 hover:bg-pool-100 text-pool-700 p-2 rounded-xl text-xs font-bold transition">
+                                <i class="fa-solid fa-volume-high text-base"></i>
+                            </button>
+                        </div>
+                        <span class="bg-pool-100 text-pool-800 font-extrabold text-xs px-2.5 py-1 rounded-lg font-heading">Teknik 1</span>
+                        <h3 class="font-heading text-xl font-extrabold text-slate-900 mt-1 mb-2">Meluncur (Gliding)</h3>
+                        <p class="text-xs md:text-sm text-slate-600 leading-relaxed mb-4">
+                            Posisi awal sebelum berenang. Tubuh dibuat lurus horizontal sejajar dengan air agar gaya hambat air menjadi sangat kecil.
+                        </p>
+                    </div>
+                    <button onclick="openModal('gliding')" class="w-full bg-pool-500 hover:bg-pool-600 text-slate-950 hover:text-white font-extrabold py-3 rounded-2xl transition text-xs md:text-sm shadow font-heading flex items-center justify-center gap-2">
+                        Buka Penjelasan Detail <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Modul 2: Gerakan Kaki -->
+                <div class="bg-white rounded-3xl p-6 shadow-md border-3 border-pool-200 hover:border-pool-400 transition flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-14 h-14 bg-pool-500 text-slate-950 rounded-2xl flex items-center justify-center text-3xl font-black shadow group-hover:scale-105 transition">
+                                🦶
+                            </div>
+                            <button onclick="speakText('Gerakan Kaki Gaya Bebas. Kaki digerakkan naik turun secara bergantian dengan sumber gerakan dari pangkal paha, bukan dari lutut.')" class="bg-pool-50 hover:bg-pool-100 text-pool-700 p-2 rounded-xl text-xs font-bold transition">
+                                <i class="fa-solid fa-volume-high text-base"></i>
+                            </button>
+                        </div>
+                        <span class="bg-pool-100 text-pool-800 font-extrabold text-xs px-2.5 py-1 rounded-lg font-heading">Teknik 2</span>
+                        <h3 class="font-heading text-xl font-extrabold text-slate-900 mt-1 mb-2">Gerakan Kaki (Flutter Kick)</h3>
+                        <p class="text-xs md:text-sm text-slate-600 leading-relaxed mb-4">
+                            Pendorong utama tubuh di air. Kaki menendang naik-turun bergantian rileks dengan pangkal paha sebagai porosnya.
+                        </p>
+                    </div>
+                    <button onclick="openModal('kicking')" class="w-full bg-pool-500 hover:bg-pool-600 text-slate-950 hover:text-white font-extrabold py-3 rounded-2xl transition text-xs md:text-sm shadow font-heading flex items-center justify-center gap-2">
+                        Buka Penjelasan Detail <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Modul 3: Gerakan Tangan -->
+                <div class="bg-white rounded-3xl p-6 shadow-md border-3 border-pool-200 hover:border-pool-400 transition flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-14 h-14 bg-pool-500 text-slate-950 rounded-2xl flex items-center justify-center text-3xl font-black shadow group-hover:scale-105 transition">
+                                💪
+                            </div>
+                            <button onclick="speakText('Gerakan Lengan dan Kayuhan. Tangan mengayuh air ke belakang secara bergantian kanan dan kiri untuk memutar dan mendorong tubuh maju.')" class="bg-pool-50 hover:bg-pool-100 text-pool-700 p-2 rounded-xl text-xs font-bold transition">
+                                <i class="fa-solid fa-volume-high text-base"></i>
+                            </button>
+                        </div>
+                        <span class="bg-pool-100 text-pool-800 font-extrabold text-xs px-2.5 py-1 rounded-lg font-heading">Teknik 3</span>
+                        <h3 class="font-heading text-xl font-extrabold text-slate-900 mt-1 mb-2">Gerakan Tangan (Arm Stroke)</h3>
+                        <p class="text-xs md:text-sm text-slate-600 leading-relaxed mb-4">
+                            Kayuhan tangan menarik air ke belakang dan melakukan pemulihan (*recovery*) memutar di atas permukaan air.
+                        </p>
+                    </div>
+                    <button onclick="openModal('armstroke')" class="w-full bg-pool-500 hover:bg-pool-600 text-slate-950 hover:text-white font-extrabold py-3 rounded-2xl transition text-xs md:text-sm shadow font-heading flex items-center justify-center gap-2">
+                        Buka Penjelasan Detail <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- Modul 4: Pengambilan Napas -->
+                <div class="bg-white rounded-3xl p-6 shadow-md border-3 border-pool-200 hover:border-pool-400 transition flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="w-14 h-14 bg-pool-500 text-slate-950 rounded-2xl flex items-center justify-center text-3xl font-black shadow group-hover:scale-105 transition">
+                                😮‍💨
+                            </div>
+                            <button onclick="speakText('Teknik Pernapasan. Hirup udara cepat lewat mulut saat kepala memutar ke samping, lalu hembuskan perlahan lewat hidung atau mulut di dalam air.')" class="bg-pool-50 hover:bg-pool-100 text-pool-700 p-2 rounded-xl text-xs font-bold transition">
+                                <i class="fa-solid fa-volume-high text-base"></i>
+                            </button>
+                        </div>
+                        <span class="bg-pool-100 text-pool-800 font-extrabold text-xs px-2.5 py-1 rounded-lg font-heading">Teknik 4</span>
+                        <h3 class="font-heading text-xl font-extrabold text-slate-900 mt-1 mb-2">Pengambilan Napas (Breathing)</h3>
+                        <p class="text-xs md:text-sm text-slate-600 leading-relaxed mb-4">
+                            Memutar kepala ke samping kanan atau kiri saat tangan mengayuh ke belakang untuk menghirup udara dari mulut.
+                        </p>
+                    </div>
+                    <button onclick="openModal('breathing')" class="w-full bg-pool-500 hover:bg-pool-600 text-slate-950 hover:text-white font-extrabold py-3 rounded-2xl transition text-xs md:text-sm shadow font-heading flex items-center justify-center gap-2">
+                        Buka Penjelasan Detail <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 4. ATURAN KESELAMATAN & ETIKA KOLAM ANK SD -->
+        <section id="keselamatan" class="bg-white rounded-3xl p-6 md:p-8 shadow-md border-3 border-pool-200">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-accent-orange text-white p-3 rounded-2xl text-2xl font-black">
+                    <i class="fa-solid fa-shield-cat"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 font-heading">Aturan Keselamatan Kolam Renang</h2>
+                    <p class="text-sm text-slate-500 font-medium">Tata tertib penting agar berenang selalu aman dan menyenangkan</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <!-- Do Rules Card -->
+                <div class="bg-emerald-50 rounded-2xl p-5 border-2 border-emerald-300 space-y-3">
+                    <h3 class="font-heading font-extrabold text-lg text-emerald-950 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-emerald-600 text-xl"></i> HAL YANG BOLEH DILAKUKAN (DO)
+                    </h3>
+                    <ul class="space-y-2 text-xs md:text-sm text-emerald-900 font-semibold">
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-600 font-black">✓</span> Berenang selalu dalam pengawasan guru, orang tua, atau pengawas kolam.
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-600 font-black">✓</span> Menggunakan papan pelampung (*kickboard*) saat latihan menendang kaki.
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-emerald-600 font-black">✓</span> Segera naik ke permukaan dan melapor jika merasa pusing atau kram otot.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Don't Rules Card -->
+                <div class="bg-rose-50 rounded-2xl p-5 border-2 border-rose-300 space-y-3">
+                    <h3 class="font-heading font-extrabold text-lg text-rose-950 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-xmark text-rose-600 text-xl"></i> DILARANG DILAKUKAN (DON'T)
+                    </h3>
+                    <ul class="space-y-2 text-xs md:text-sm text-rose-900 font-semibold">
+                        <li class="flex items-start gap-2">
+                            <span class="text-rose-600 font-black">✕</span> Dilarang berlari-larian di lantai pinggir kolam karena sangat licin!
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-rose-600 font-black">✕</span> Dilarang mendorong atau bercanda berlebihan dengan teman di air.
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-rose-600 font-black">✕</span> Dilarang melompat ke kolam tanpa izin dan instruksi dari guru PJOK.
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- 5. KUIS INTERAKTIF RENANG (5 SOAL SD) -->
+        <section id="kuis" class="bg-gradient-to-br from-slate-950 via-sky-950 to-pool-950 text-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-pool-400 relative overflow-hidden">
+            <div class="text-center max-w-xl mx-auto mb-8">
+                <span class="bg-accent-yellow text-slate-950 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider inline-block font-heading shadow">
+                    ⭐️ Uji Hasil Belajar Anak SD
+                </span>
+                <h2 class="text-3xl font-extrabold text-white mt-2 font-heading">KUIS RENANG SD (5 SOAL)</h2>
+                <p class="text-slate-300 text-xs md:text-sm font-medium">Jawablah pertanyaan di bawah ini dengan memilih salah satu jawaban yang paling tepat!</p>
+            </div>
+
+            <!-- Quiz Main Box -->
+            <div id="quiz-container" class="bg-white text-slate-800 rounded-2xl p-6 md:p-8 shadow-2xl max-w-2xl mx-auto border-3 border-pool-300">
+                <div class="flex justify-between items-center mb-6 pb-4 border-b border-slate-200">
+                    <span id="question-number" class="font-heading font-extrabold text-pool-700 bg-pool-100 px-3.5 py-1 rounded-xl text-xs md:text-sm">Pertanyaan 1 dari 5</span>
+                    <div class="flex items-center gap-1 text-accent-yellow text-lg font-bold" id="star-display">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="mb-6 flex items-start justify-between gap-3">
+                    <h3 id="question-text" class="text-base md:text-lg font-bold text-slate-900 leading-snug">Memuat Soal...</h3>
+                    <button onclick="readCurrentQuestion()" class="p-2.5 bg-pool-50 hover:bg-pool-100 text-pool-700 rounded-xl text-xs font-bold transition flex-shrink-0" title="Bacakan Soal">
+                        <i class="fa-solid fa-volume-high text-base"></i>
+                    </button>
+                </div>
+
+                <div id="options-container" class="grid grid-cols-1 gap-3">
+                    <!-- Options injected by JS -->
+                </div>
+
+                <div id="feedback-box" class="hidden mt-4 p-4 rounded-2xl text-center font-bold text-xs md:text-sm"></div>
+
+                <div class="mt-6 flex justify-end">
+                    <button id="next-btn" onclick="nextQuestion()" class="hidden bg-pool-500 hover:bg-pool-600 text-slate-950 hover:text-white font-extrabold px-6 py-3 rounded-2xl transition text-xs md:text-sm flex items-center gap-2 shadow font-heading">
+                        Soal Selanjutnya <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Result Box -->
+            <div id="result-container" class="hidden bg-white text-slate-800 rounded-2xl p-8 text-center shadow-2xl max-w-lg mx-auto border-4 border-accent-yellow">
+                <div class="w-20 h-20 bg-yellow-100 text-accent-yellow rounded-full flex items-center justify-center mx-auto text-4xl mb-4 shadow-inner border-2 border-yellow-300">
+                    🏆
+                </div>
+                <h3 class="text-2xl font-black text-slate-900 mb-1 font-heading">HEBAT! KUIS SELESAI!</h3>
+                <p class="text-xs text-slate-500 font-semibold mb-2">Nilai Akhir Kamu:</p>
+                <div class="text-5xl font-black text-pool-600 mb-4 font-heading" id="final-score">100</div>
+                <p id="result-message" class="text-slate-700 text-sm font-bold mb-6">Luar biasa! Kamu sudah sangat paham teknik dasar renang gaya bebas!</p>
+                <button onclick="resetQuiz()" class="bg-pool-500 hover:bg-pool-600 text-slate-950 hover:text-white font-extrabold px-8 py-3.5 rounded-2xl shadow-lg transition transform hover:-translate-y-1 inline-flex items-center gap-2 text-sm font-heading">
+                    <i class="fa-solid fa-rotate-right"></i> Ulangi Kuis
+                </button>
+            </div>
+        </section>
+
+        <!-- 6. PROFIL PEMBUAT LENGKAP -->
+        <section id="pembuat" class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-4 border-pool-400 relative overflow-hidden">
+            <div class="flex flex-col md:flex-row items-center gap-6 relative z-10">
+                <div class="w-28 h-28 md:w-36 md:h-36 bg-gradient-to-br from-pool-400 via-sky-500 to-sky-700 text-slate-950 rounded-3xl flex items-center justify-center text-5xl md:text-6xl shadow-xl border-4 border-slate-100 flex-shrink-0 font-heading font-black">
+                    🏊‍♂️
+                </div>
+                <div class="text-center md:text-left flex-grow">
+                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-2">
+                        <span class="bg-pool-100 text-pool-800 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider font-heading">
+                            Pengembang Media Pembelajaran PJOK SD
+                        </span>
+                        <span class="bg-accent-yellow text-slate-950 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider font-heading shadow">
+                            Kelas: Paralel 1
+                        </span>
+                    </div>
+                    <h3 class="text-2xl md:text-3xl font-black text-slate-900 font-heading">Farhan Komaruzaman</h3>
+                    <p class="text-pool-600 font-extrabold text-base md:text-lg mt-0.5 font-heading">
+                        NPM: <span class="text-slate-900 tracking-wider">41182191240026</span> <span class="text-slate-500 text-sm font-semibold">(Paralel 1)</span>
+                    </p>
+                    <p class="text-slate-600 text-xs md:text-sm mt-3 leading-relaxed font-semibold">
+                        Media Pembelajaran PJOK Olahraga Renang ini dirancang khusus untuk siswa Sekolah Dasar (SD) agar dapat mempelajari teknik meluncur, gerakan kaki, gayuhan tangan, dan pernapasan renang secara aman, interaktif, serta menyenangkan.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 text-slate-400 py-6 border-t-4 border-pool-400 mt-auto">
+        <div class="max-w-5xl mx-auto px-4 text-center text-xs md:text-sm space-y-1 font-semibold">
+            <p class="text-slate-200">© 2026 PJOK SD - Media Pembelajaran Olahraga Renang Interaktif</p>
+            <p class="text-slate-400">
+                Dibuat oleh: <span class="text-pool-400 font-bold">Farhan Komaruzaman</span> | NPM: <span class="text-accent-yellow font-bold">41182191240026</span> | <span class="text-pool-300 font-bold">Paralel 1</span>
+            </p>
+        </div>
+    </footer>
+
+    <!-- MODAL DETAIL MODUL MATERI -->
+    <div id="detail-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 relative shadow-2xl border-4 border-pool-400">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-2xl font-bold w-9 h-9 flex items-center justify-center rounded-full hover:bg-slate-100">
+                &times;
+            </button>
+            <div id="modal-content" class="space-y-4">
+                <!-- Injected via JS -->
+            </div>
+            <button onclick="closeModal()" class="mt-6 w-full bg-pool-500 hover:bg-pool-600 text-slate-950 hover:text-white font-extrabold py-3 rounded-2xl transition text-xs md:text-sm shadow font-heading">
+                Saya Sudah Paham! 👍
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC SUITE -->
+    <script>
+        // --- 1. Mobile Navbar Toggle ---
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+
+        // --- 2. Interactive Hero Splash Effect ---
+        function triggerHeroSplash() {
+            playSplashSound();
+            const svg = document.getElementById('hero-swimmer-svg');
+            svg.style.transform = 'scale(1.08) rotate(-3deg)';
+            confetti({ particleCount: 30, spread: 50, origin: { y: 0.4 } });
+            setTimeout(() => {
+                svg.style.transform = 'scale(1.0) rotate(0deg)';
+            }, 500);
+        }
+
+        // --- 3. Text to Speech (Audio Reader id-ID) ---
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'id-ID';
+                utterance.rate = 0.95;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // --- 4. Web Audio API Synthesizers (Splash, Bubble, Quiz Sounds) ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSplashSound() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(450, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(140, audioCtx.currentTime + 0.3);
+
+            gain.gain.setValueAtTime(0.35, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+            osc.start(audioCtx.currentTime);
+            osc.stop(audioCtx.currentTime + 0.3);
+        }
+
+        function playQuizSound(isCorrect) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (isCorrect) {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); // C5
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+                osc.frequency.setValueAtTime(783.99, audioCtx.currentTime + 0.2); // G5
+                gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.45);
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + 0.45);
+            } else {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(260, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(180, audioCtx.currentTime + 0.15);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.35);
+                osc.start(audioCtx.currentTime);
+                osc.stop(audioCtx.currentTime + 0.35);
+            }
+        }
+
+        // --- 5. UPGRADED CANVAS 2D SWIMMING SIMULATOR ENGINE ---
+        const canvas = document.getElementById('swimmingCanvas');
+        const ctx = canvas.getContext('2d');
+        const speedSlider = document.getElementById('sim-speed-slider');
+
+        let simRunning = true;
+        let showBiomechanics = true;
+        let simMode = 'gliding'; // 'gliding', 'kicking', 'full', 'breaststroke'
+        let simTime = 0;
+        let bubbles = [];
+        let splashParticles = [];
+
+        function resizeCanvas() {
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = canvas.parentElement.clientHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function toggleSimPlay() {
+            simRunning = !simRunning;
+            const btn = document.getElementById('sim-play-btn');
+            if (simRunning) {
+                btn.innerHTML = `<i class="fa-solid fa-pause"></i> Pause`;
+            } else {
+                btn.innerHTML = `<i class="fa-solid fa-play"></i> Play`;
+            }
+        }
+
+        function toggleBiomechanics() {
+            showBiomechanics = !showBiomechanics;
+            document.getElementById('bio-status-text').textContent = showBiomechanics ? "ON" : "OFF";
+        }
+
+        function triggerWaterSplashEffect() {
+            playSplashSound();
+            const swimmerX = canvas.width * 0.45;
+            const swimmerY = 110;
+            for (let i = 0; i < 25; i++) {
+                splashParticles.push({
+                    x: swimmerX + (Math.random() - 0.5) * 140,
+                    y: swimmerY + (Math.random() - 0.5) * 20,
+                    vx: (Math.random() - 0.5) * 6,
+                    vy: -Math.random() * 5 - 2,
+                    r: Math.random() * 5 + 2,
+                    alpha: 1.0
+                });
+            }
+        }
+
+        function setSimMode(mode) {
+            simMode = mode;
+            playSplashSound();
+            
+            // Highlight buttons
+            document.getElementById('btn-mode-gliding').className = mode === 'gliding' ? "px-3 py-2 rounded-xl text-xs font-bold font-heading bg-pool-500 text-slate-950 shadow transition" : "px-3 py-2 rounded-xl text-xs font-bold font-heading bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+            document.getElementById('btn-mode-kicking').className = mode === 'kicking' ? "px-3 py-2 rounded-xl text-xs font-bold font-heading bg-pool-500 text-slate-950 shadow transition" : "px-3 py-2 rounded-xl text-xs font-bold font-heading bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+            document.getElementById('btn-mode-full').className = mode === 'full' ? "px-3 py-2 rounded-xl text-xs font-bold font-heading bg-pool-500 text-slate-950 shadow transition" : "px-3 py-2 rounded-xl text-xs font-bold font-heading bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+            document.getElementById('btn-mode-breaststroke').className = mode === 'breaststroke' ? "px-3 py-2 rounded-xl text-xs font-bold font-heading bg-pool-500 text-slate-950 shadow transition" : "px-3 py-2 rounded-xl text-xs font-bold font-heading bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+
+            const title = document.getElementById('sim-mode-title');
+            const desc = document.getElementById('sim-instruction-text');
+
+            if (mode === 'gliding') {
+                title.textContent = "Mode: Meluncur (Gliding)";
+                desc.textContent = "💡 *Keterangan Mode Meluncur:* Posisi torpedo lurus horizontal sejajar permukaan air, kedua lengan menjangkau lurus memegang papan seluncur.";
+            } else if (mode === 'kicking') {
+                title.textContent = "Mode: Gerakan Kaki (Flutter Kick)";
+                desc.textContent = "💡 *Keterangan Gerakan Kaki:* Kaki dideras naik-turun cepat secara bergantian dengan poros di pangkal paha & percikan air di permukaan.";
+            } else if (mode === 'full') {
+                title.textContent = "Mode: Gaya Bebas Utuh (Full Freestyle)";
+                desc.textContent = "💡 *Keterangan Gaya Bebas Utuh:* Kayuhan lengan melingkar bergantian, gerakan kaki naik-turun, serta memutar kepala ke samping untuk mengambil napas.";
+            } else {
+                title.textContent = "Mode: Gaya Dada / Katak (Breaststroke)";
+                desc.textContent = "💡 *Keterangan Gaya Dada/Katak:* Gerakan lecutan kaki katak yang simetris dikombinasikan dengan kayuhan tangan melingkar membentuk hati.";
+            }
+        }
+
+        function createBubble(x, y) {
+            bubbles.push({
+                x: x,
+                y: y,
+                r: Math.random() * 4 + 2,
+                vy: Math.random() * 1.5 + 0.6,
+                vx: (Math.random() - 0.5) * 0.8,
+                alpha: 0.85
+            });
+        }
+
+        // Draw Helper: Arrow Vector for Biomechanics
+        function drawVectorArrow(fromX, fromY, toX, toY, color = '#FACC15', label = '') {
+            if (!showBiomechanics) return;
+            const headlen = 8;
+            const dx = toX - fromX;
+            const dy = toY - fromY;
+            const angle = Math.atan2(dy, dx);
+            
+            ctx.save();
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
+            ctx.lineWidth = 2.5;
+            ctx.setLineDash([4, 3]);
+
+            ctx.beginPath();
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+            ctx.stroke();
+
+            ctx.setLineDash([]);
+            ctx.beginPath();
+            ctx.moveTo(toX, toY);
+            ctx.lineTo(toX - headlen * Math.cos(angle - Math.PI / 6), toY - headlen * Math.sin(angle - Math.PI / 6));
+            ctx.lineTo(toX - headlen * Math.cos(angle + Math.PI / 6), toY - headlen * Math.sin(angle + Math.PI / 6));
+            ctx.closePath();
+            ctx.fill();
+
+            if (label) {
+                ctx.font = 'bold 10px Fredoka, sans-serif';
+                ctx.fillText(label, toX + 6, toY + 3);
+            }
+            ctx.restore();
+        }
+
+        function drawSwimmerSim() {
+            const w = canvas.width;
+            const h = canvas.height;
+            const waterY = 95;
+            const speed = parseFloat(speedSlider.value);
+
+            if (simRunning) {
+                simTime += 0.05 * speed;
+            }
+
+            // 1. Draw Deep Pool Background with Gradient & Tiles
+            const poolGrad = ctx.createLinearGradient(0, 0, 0, h);
+            poolGrad.addColorStop(0, '#0284c7');
+            poolGrad.addColorStop(0.4, '#0891b2');
+            poolGrad.addColorStop(1, '#082f49');
+            ctx.fillStyle = poolGrad;
+            ctx.fillRect(0, 0, w, h);
+
+            // Tile grid lines pattern on pool wall
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+            ctx.lineWidth = 1;
+            const tileSize = 35;
+            for (let x = 0; x < w; x += tileSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, waterY);
+                ctx.lineTo(x, h);
+                ctx.stroke();
+            }
+            for (let y = waterY; y < h; y += tileSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(w, y);
+                ctx.stroke();
+            }
+
+            // Sunbeams / Caustics rays in water
+            ctx.save();
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+            for (let i = 0; i < 5; i++) {
+                const rayX = (i * 180 + simTime * 20) % (w + 100) - 50;
+                ctx.beginPath();
+                ctx.moveTo(rayX, waterY);
+                ctx.lineTo(rayX + 80, h);
+                ctx.lineTo(rayX + 130, h);
+                ctx.lineTo(rayX + 30, waterY);
+                ctx.closePath();
+                ctx.fill();
+            }
+            ctx.restore();
+
+            // Lane Divider Rope (Pelampung Pembatas Lintasan Kolam)
+            const floatSpacing = 24;
+            for (let x = 0; x < w; x += floatSpacing) {
+                const floatColor = (Math.floor(x / floatSpacing) % 2 === 0) ? '#EF4444' : '#FFFFFF';
+                ctx.fillStyle = floatColor;
+                ctx.beginPath();
+                ctx.ellipse(x + 12, waterY + 2, 9, 6, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = '#991B1B';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+
+            // Water surface ripples & foam
+            ctx.fillStyle = "rgba(56, 189, 248, 0.6)";
+            ctx.beginPath();
+            ctx.moveTo(0, waterY);
+            for (let x = 0; x <= w; x += 30) {
+                const yOffset = Math.sin(x * 0.03 + simTime * 2.5) * 4;
+                ctx.lineTo(x, waterY + yOffset);
+            }
+            ctx.lineTo(w, h);
+            ctx.lineTo(0, h);
+            ctx.closePath();
+            ctx.fill();
+
+            // Foam highlights on water surface
+            ctx.strokeStyle = "#E0F2FE";
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(0, waterY - 2);
+            for (let x = 0; x <= w; x += 35) {
+                const yOffset = Math.sin(x * 0.02 + simTime * 3) * 3;
+                ctx.lineTo(x, waterY - 2 + yOffset);
+            }
+            ctx.stroke();
+
+            // Swimmer Base Position Center
+            const swimmerX = w * 0.45;
+            const swimmerY = waterY + 48;
+
+            // 2. Bubbles Stream Logic
+            if (simRunning && Math.random() < 0.45) {
+                createBubble(swimmerX - 80 + Math.random() * 160, swimmerY + 8);
+            }
+            for (let i = bubbles.length - 1; i >= 0; i--) {
+                const b = bubbles[i];
+                b.y -= b.vy;
+                b.x += b.vx;
+                b.alpha -= 0.009;
+
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.max(0, b.alpha)})`;
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (b.y < waterY || b.alpha <= 0) {
+                    bubbles.splice(i, 1);
+                }
+            }
+
+            // 3. Water Splash Particles Logic
+            for (let i = splashParticles.length - 1; i >= 0; i--) {
+                const p = splashParticles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.25; // gravity
+                p.alpha -= 0.02;
+
+                ctx.fillStyle = `rgba(224, 242, 254, ${Math.max(0, p.alpha)})`;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fill();
+
+                if (p.alpha <= 0 || p.y > h) {
+                    splashParticles.splice(i, 1);
+                }
+            }
+
+            // 4. Kinematics Calculations based on SimMode
+            let legAngle1 = 0;
+            let legAngle2 = 0;
+            let armAngleLeft = 0;
+            let armAngleRight = 0;
+            let headRoll = 0;
+            let isExhale = true;
+
+            if (simMode === 'gliding') {
+                legAngle1 = Math.sin(simTime * 0.5) * 2;
+                legAngle2 = -Math.sin(simTime * 0.5) * 2;
+                armAngleLeft = 0;
+                armAngleRight = 0;
+                isExhale = true;
+            } else if (simMode === 'kicking') {
+                legAngle1 = Math.sin(simTime * 9) * 18;
+                legAngle2 = -Math.sin(simTime * 9) * 18;
+                armAngleLeft = 0;
+                armAngleRight = 0;
+                isExhale = true;
+
+                // Create surface splashes at feet
+                if (simRunning && Math.abs(legAngle1) > 14 && Math.random() < 0.6) {
+                    splashParticles.push({
+                        x: swimmerX - 85,
+                        y: waterY + 4,
+                        vx: -Math.random() * 3 - 1,
+                        vy: -Math.random() * 3 - 1,
+                        r: Math.random() * 4 + 2,
+                        alpha: 0.9
+                    });
+                }
+            } else if (simMode === 'full') {
+                legAngle1 = Math.sin(simTime * 10) * 18;
+                legAngle2 = -Math.sin(simTime * 10) * 18;
+                armAngleRight = (simTime * 3.2) % (Math.PI * 2);
+                armAngleLeft = ((simTime * 3.2) + Math.PI) % (Math.PI * 2);
+                
+                // Head breathing roll cycle
+                const breathCycle = Math.sin(simTime * 1.6);
+                headRoll = breathCycle > 0.4 ? (breathCycle - 0.4) * 0.7 : 0;
+                isExhale = headRoll < 0.15;
+            } else if (simMode === 'breaststroke') {
+                // Symmetrical frog kick & arm sweep
+                const frogCycle = Math.sin(simTime * 3);
+                legAngle1 = frogCycle > 0 ? frogCycle * 25 : 0;
+                legAngle2 = -legAngle1;
+                armAngleRight = Math.cos(simTime * 3) * 0.8;
+                armAngleLeft = -armAngleRight;
+                headRoll = frogCycle > 0.5 ? -0.2 : 0;
+                isExhale = headRoll > -0.1;
+            }
+
+            // Update Breath Status UI Badge
+            const breathText = document.getElementById('breath-text');
+            const breathDot = document.getElementById('breath-dot');
+            if (isExhale) {
+                breathText.textContent = "Status Pernapasan: Hembuskan Udara di Air (Exhale 🫧)";
+                breathDot.className = "w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse";
+            } else {
+                breathText.textContent = "Status Pernapasan: HIRUP NAPAS DI LUAR! (Inhale 😮‍💨)";
+                breathDot.className = "w-2.5 h-2.5 rounded-full bg-yellow-400 animate-bounce";
+            }
+
+            // Kickboard (In Gliding & Kicking mode)
+            if (simMode === 'gliding' || simMode === 'kicking') {
+                ctx.fillStyle = "#FACC15";
+                ctx.beginPath();
+                ctx.roundRect(swimmerX + 80, swimmerY - 12, 50, 16, 7);
+                ctx.fill();
+                ctx.strokeStyle = "#EAB308";
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.fillStyle = "#CA8A04";
+                ctx.font = "bold 9px Fredoka, sans-serif";
+                ctx.fillText("PELAMPUNG SD", swimmerX + 84, swimmerY - 1);
+            }
+
+            // 5. RENDER SWIMMER BODY PARTS
+            // Left Arm (Behind Torso)
+            ctx.save();
+            ctx.translate(swimmerX + 30, swimmerY - 5);
+            if (simMode === 'full') {
+                ctx.rotate(armAngleLeft);
+            } else if (simMode === 'breaststroke') {
+                ctx.rotate(armAngleLeft * 0.5);
+            }
+            ctx.strokeStyle = "#FDBA74";
+            ctx.lineWidth = 10;
+            ctx.lineCap = "round";
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(simMode === 'full' ? 45 : 55, simMode === 'full' ? 12 : 0);
+            ctx.stroke();
+            ctx.restore();
+
+            // Legs (Flutter Kick or Frog Kick)
+            // Leg 1 (Upper)
+            ctx.save();
+            ctx.translate(swimmerX - 45, swimmerY);
+            ctx.rotate(legAngle1 * (Math.PI / 180));
+            ctx.strokeStyle = "#FDBA74";
+            ctx.lineWidth = 11;
+            ctx.lineCap = "round";
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(-45, 5);
+            ctx.stroke();
+            ctx.restore();
+
+            // Leg 2 (Lower)
+            ctx.save();
+            ctx.translate(swimmerX - 45, swimmerY);
+            ctx.rotate(legAngle2 * (Math.PI / 180));
+            ctx.strokeStyle = "#FB923C";
+            ctx.lineWidth = 11;
+            ctx.lineCap = "round";
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(-45, 8);
+            ctx.stroke();
+            ctx.restore();
+
+            // Torso Body
+            ctx.strokeStyle = "#FDBA74";
+            ctx.lineWidth = 22;
+            ctx.lineCap = "round";
+            ctx.beginPath();
+            ctx.moveTo(swimmerX - 40, swimmerY);
+            ctx.lineTo(swimmerX + 35, swimmerY - 5);
+            ctx.stroke();
+
+            // Swim Shorts (Celana Renang)
+            ctx.fillStyle = "#0EA5E9";
+            ctx.beginPath();
+            ctx.roundRect(swimmerX - 48, swimmerY - 13, 30, 24, 6);
+            ctx.fill();
+
+            // Right Arm (In front of Torso)
+            ctx.save();
+            ctx.translate(swimmerX + 30, swimmerY - 5);
+            if (simMode === 'full') {
+                ctx.rotate(armAngleRight);
+            } else if (simMode === 'breaststroke') {
+                ctx.rotate(armAngleRight * 0.5);
+            }
+            ctx.strokeStyle = "#FDBA74";
+            ctx.lineWidth = 11;
+            ctx.lineCap = "round";
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(55, 0);
+            ctx.stroke();
+            ctx.restore();
+
+            // Head & Breathing Action
+            ctx.save();
+            ctx.translate(swimmerX + 45, swimmerY - 8);
+            ctx.rotate(headRoll);
+
+            // Head skin
+            ctx.fillStyle = "#FDBA74";
+            ctx.beginPath();
+            ctx.arc(0, 0, 17, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Swim Cap Orange
+            ctx.fillStyle = "#FB923C";
+            ctx.beginPath();
+            ctx.arc(0, 0, 17, Math.PI * 0.75, Math.PI * 1.95);
+            ctx.fill();
+
+            // Goggles
+            ctx.fillStyle = "#38BDF8";
+            ctx.strokeStyle = "#1E293B";
+            ctx.lineWidth = 2;
+            ctx.fillRect(4, -6, 12, 9);
+            ctx.strokeRect(4, -6, 12, 9);
+
+            // Mouth / Breath Indicator Visual Bubble Emoji
+            if (!isExhale) {
+                ctx.fillStyle = "#FACC15";
+                ctx.font = "bold 12px Nunito, sans-serif";
+                ctx.fillText("😮‍💨 Tarik Napas!", 18, -12);
+            }
+
+            ctx.restore();
+
+            // 6. DRAW BIOMECHANICS VECTOR ARROWS
+            if (showBiomechanics) {
+                // Hydrodynamic Forward Thrust
+                drawVectorArrow(swimmerX + 50, swimmerY - 5, swimmerX + 110, swimmerY - 5, '#FACC15', 'Gaya Maju');
+                // Kick Water Resistance Vector
+                drawVectorArrow(swimmerX - 50, swimmerY + 10, swimmerX - 95, swimmerY + 30, '#38BDF8', 'Dorongan Kaki');
+                
+                if (simMode === 'full') {
+                    drawVectorArrow(swimmerX + 30, swimmerY + 10, swimmerX + 10, swimmerY + 45, '#4ADE80', 'Kayuhan Lengan');
+                }
+            }
+        }
+
+        function renderSimLoop() {
+            drawSwimmerSim();
+            requestAnimationFrame(renderSimLoop);
+        }
+        renderSimLoop();
+
+        // --- 6. Step Detail Modals Data ---
+        const modalData = {
+            gliding: {
+                title: "1. Teknik Meluncur (Gliding)",
+                desc: "Meluncur adalah gerak paling dasar dalam renang. Posisi tubuh berdiri menempel di dinding kolam. Dorong kaki kuat-kuat ke dinding, luruskan badan sejajar permukaan air seperti peluru meluncur. Lengan lurus menjangkau ke depan dan kepala menghadap ke bawah kolam."
+            },
+            kicking: {
+                title: "2. Gerakan Kaki (Flutter Kick)",
+                desc: "Kaki menendang naik dan turun secara bergantian dengan irama yang cepat dan teratur. Gerakan dimulai dari pangkal paha (bukan ditekuk di lutut). Pergelangan kaki harus rileks dan lemas agar dapat mengibaskan air secara maksimal."
+            },
+            armstroke: {
+                title: "3. Gerakan Tangan (Arm Stroke)",
+                desc: "Kayuhan tangan gaya bebas terdiri dari 3 tahap: menarik (*pull*), mendorong (*push*), dan pemulihan (*recovery*). Tangan mengayuh air ke belakang di bawah dada, lalu memutar keluar di atas permukaan air untuk kembali lurus ke depan."
+            },
+            breathing: {
+                title: "4. Pengambilan Napas (Breathing)",
+                desc: "Pengambilan napas dilakukan saat salah satu tangan mengayuh ke belakang. Putar kepala ke samping kanan atau kiri hingga mulut berada di atas air untuk menghirup udara cepat. Saat kepala kembali ke dalam air, hembuskan udara perlahan dari mulut/hidung."
+            }
+        };
+
+        function openModal(key) {
+            const data = modalData[key];
+            if (!data) return;
+            playSplashSound();
+            const content = document.getElementById('modal-content');
+            content.innerHTML = `
+                <div class="flex items-center gap-3 border-b pb-3">
+                    <div class="bg-pool-400 text-slate-950 p-2.5 rounded-2xl text-2xl font-black font-heading">
+                        🏊‍♂️
+                    </div>
+                    <h3 class="text-xl font-extrabold text-slate-900 font-heading">${data.title}</h3>
+                </div>
+                <p class="text-xs md:text-sm text-slate-700 leading-relaxed font-semibold">${data.desc}</p>
+            `;
+            document.getElementById('detail-modal').classList.remove('hidden');
+            speakText(data.title + '. ' + data.desc);
+        }
+
+        function closeModal() {
+            document.getElementById('detail-modal').classList.add('hidden');
+        }
+
+        // --- 7. Interactive Quiz Engine (5 Questions for SD) ---
+        const quizQuestions = [
+            {
+                question: "Sebelum masuk ke kolam renang, gerakan apa yang wajib kita lakukan agar otot tidak kram?",
+                options: [
+                    "Lari kencang di pinggir kolam",
+                    "Pemanasan peregangan otot",
+                    "Makan makanan berat",
+                    "Tidur terlentang"
+                ],
+                answer: 1,
+                explanation: "Pemanasan peregangan otot sangat penting dilakukan 5-10 menit sebelum berenang agar otot fleksibel dan terhindar dari kram."
+            },
+            {
+                question: "Pada gerakan meluncur, posisi tubuh yang benar di atas air adalah...",
+                options: [
+                    "Tubuh tegak berdiri",
+                    "Tubuh melengkung seperti bola",
+                    "Tubuh lurus horizontal sejajar permukaan air",
+                    "Kaki di atas dan kepala di dasar"
+                ],
+                answer: 2,
+                explanation: "Meluncur dilakukan dengan lurus sejajar air agar hambatan air menjadi sangat kecil."
+            },
+            {
+                question: "Gerakan tendangan kaki pada renang gaya bebas berporos pada...",
+                options: [
+                    "Lutut kaki",
+                    "Pangkal paha",
+                    "Jari kaki",
+                    "Tumit"
+                ],
+                answer: 1,
+                explanation: "Gerakan menendang kaki (Flutter Kick) harus bersumber dari pangkal paha dengan lutut dan pergelangan kaki rileks."
+            },
+            {
+                question: "Bagaimana cara menghirup udara yang benar saat melakukan pengambilan napas renang gaya bebas?",
+                options: [
+                    "Memutar kepala ke samping saat tangan mengayuh ke belakang",
+                    "Menengadah lurus ke atas langit",
+                    "Bernapas di dalam air menggunakan hidung",
+                    "Berhenti berenang dan berdiri di dasar"
+                ],
+                answer: 0,
+                explanation: "Napas dihirup lewat mulut saat kepala memutar ke samping bersamaan dengan kayuhan tangan ke belakang."
+            },
+            {
+                question: "Manakah aturan keselamatan yang SANGAT DILARANG saat berada di area kolam renang?",
+                options: [
+                    "Memakai kacamata renang",
+                    "Berlari-larian di pinggir kolam yang licin",
+                    "Berenang di kolam dangkal",
+                    "Menggunakan papan pelampung"
+                ],
+                answer: 1,
+                explanation: "Lantai di pinggir kolam sangat licin, sehingga anak SD dilarang keras berlari-larian karena berbahaya terpleset!"
+            }
+        ];
+
+        let quizIndex = 0;
+        let quizScore = 0;
+        let isAnswered = false;
+
+        function loadQuizQuestion() {
+            isAnswered = false;
+            const q = quizQuestions[quizIndex];
+            document.getElementById('question-number').textContent = `Pertanyaan ${quizIndex + 1} dari ${quizQuestions.length}`;
+            document.getElementById('question-text').textContent = q.question;
+
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
+            document.getElementById('feedback-box').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-2xl border-2 border-slate-200 hover:border-pool-500 hover:bg-pool-50 transition text-xs md:text-sm font-bold text-slate-800 flex items-center justify-between group";
+                btn.innerHTML = `
+                    <span>${String.fromCharCode(65 + idx)}. ${opt}</span>
+                    <i class="fa-regular fa-circle text-slate-300 group-hover:text-pool-500"></i>
+                `;
+                btn.onclick = () => selectQuizOption(idx, btn);
+                container.appendChild(btn);
+            });
+        }
+
+        function readCurrentQuestion() {
+            const q = quizQuestions[quizIndex];
+            speakText(`${q.question}. Pilihan A: ${q.options[0]}. Pilihan B: ${q.options[1]}. Pilihan C: ${q.options[2]}. Pilihan D: ${q.options[3]}.`);
+        }
+
+        function selectQuizOption(idx, btn) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const q = quizQuestions[quizIndex];
+            const feedback = document.getElementById('feedback-box');
+            const options = document.getElementById('options-container').children;
+
+            if (idx === q.answer) {
+                quizScore += 20;
+                playQuizSound(true);
+                btn.className = "w-full text-left p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-bold text-xs md:text-sm flex items-center justify-between";
+                btn.querySelector('i').className = "fa-solid fa-circle-check text-emerald-600 text-lg";
+
+                feedback.className = "mt-4 p-4 rounded-2xl text-center font-bold text-xs md:text-sm bg-emerald-100 text-emerald-900 border border-emerald-300";
+                feedback.innerHTML = `🎉 BENAR SEKALI! ${q.explanation}`;
+            } else {
+                playQuizSound(false);
+                btn.className = "w-full text-left p-4 rounded-2xl border-2 border-rose-400 bg-rose-50 text-rose-950 font-bold text-xs md:text-sm flex items-center justify-between";
+                btn.querySelector('i').className = "fa-solid fa-circle-xmark text-rose-600 text-lg";
+
+                options[q.answer].className = "w-full text-left p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-emerald-950 font-bold text-xs md:text-sm flex items-center justify-between";
+
+                feedback.className = "mt-4 p-4 rounded-2xl text-center font-bold text-xs md:text-sm bg-rose-100 text-rose-950 border border-rose-300";
+                feedback.innerHTML = `😅 HAMPIR BENAR! Jawaban yang tepat: ${q.options[q.answer]}. ${q.explanation}`;
+            }
+
+            feedback.classList.remove('hidden');
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.textContent = quizIndex < quizQuestions.length - 1 ? "Soal Selanjutnya" : "Lihat Nilai Akhir";
+            nextBtn.classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (quizIndex < quizQuestions.length - 1) {
+                quizIndex++;
+                loadQuizQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            const res = document.getElementById('result-container');
+            res.classList.remove('hidden');
+
+            document.getElementById('final-score').textContent = quizScore;
+
+            if (quizScore >= 80) {
+                document.getElementById('result-message').textContent = "Hore! Kamu adalah jagoan renang SD yang hebat! 🏊‍♂️🏆";
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            } else if (quizScore >= 60) {
+                document.getElementById('result-message').textContent = "Bagus! Kamu sudah memahami sebagian besar teknik dasar renang!";
+            } else {
+                document.getElementById('result-message').textContent = "Tetap semangat! Ulangi baca materi dan coba kuis sekali lagi ya!";
+            }
+        }
+
+        function resetQuiz() {
+            quizIndex = 0;
+            quizScore = 0;
+            document.getElementById('result-container').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            loadQuizQuestion();
+        }
+
+        window.onload = function() {
+            loadQuizQuestion();
+        };
+    </script>
+</body>
+</html>
